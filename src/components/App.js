@@ -1,6 +1,6 @@
 import React, { Component, useLayoutEffect } from 'react';
 import Web3 from 'web3';
-import logo from '../logo.png';
+import Identicon from 'identicon.js';
 import './App.css';
 import SocialNetwork from '../abis/SocialNetwork.json';
 import Navbar from './Navbar';
@@ -88,15 +88,29 @@ class App extends Component {
                {this.state.posts.map((post, key)=>{
                  return(
                    <div className="card mb-4" key={key}>
-                    <div className="card_header">
-                      <small className="text-muted">{post.author}r</small>
+                    <div className="card_header pt-2 pb-2">
+                      <img 
+                            className="ml-2 mr-2" 
+                            width='30'
+                            height='30'
+                            src={`data:image/png;base64,${new Identicon(this.state.account, 30).toString()}`}
+                            alt=""
+                        />
+                        <small className="text-muted">{post.author}</small>
                     </div>
                     <ul id="postList" className="list-group list-group-flush">
                       <li className="list-group-item">
                         <p>{post.content}</p>
                       </li>
                       <li key={key} className="list-group-item py-2">
-                        <p>Post Footer</p>
+                        <small className="float-left mt-1 text-muted">
+                          TIPS: {window.web3.utils.fromWei(post.tipAmount.toString(), 'Ether')} ETH
+                        </small>
+                        <button className="btn btn-link btn-sm float-right pt-0">
+                          <span>
+                            TIP 0.1 ETH
+                          </span>
+                        </button>
                       </li>
                     </ul>
                    </div>
